@@ -31,8 +31,8 @@ describe('webhook', () => {
         Amount: amount
       })
       .expect(200)
-    
-    expect(callback.called).to.be.true
+
+    expect(callback.called).to.equal(true)
     const arg = callback.firstCall.args[0]
 
     expect(arg).to.deep.equal({
