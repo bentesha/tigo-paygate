@@ -88,7 +88,7 @@ describe('TigoPesaApi', () => {
       error = await app.api
         .authenticate({ username, password })
         .catch(error => error)
-      
+
       scope.done()
 
       expect(error.code).to.equal('INVALID_GRANT')
@@ -238,7 +238,7 @@ describe('TigoPesaApi', () => {
           reference
         })
         .catch(error => error)
-      
+
       scope.done()
       expect(error.code).to.equal('INVALID_RESPONSE')
     })

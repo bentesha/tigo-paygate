@@ -55,7 +55,7 @@ class TigoPesaApi {
       })
 
     if (response.data.error) {
-      //debug('Auth error', response)
+      // debug('Auth error', response)
       return Promise.reject(ApiError.fromResponse({ response }))
     }
     const result = response.data
@@ -80,10 +80,10 @@ class TigoPesaApi {
    */
 
   /**
-   * 
+   *
    * @param {ChargeRequest} request - Charge request parameters
    */
-  async chargeCustomer(request) {
+  async chargeCustomer (request) {
     const headers = {
       'Authorization': 'Bearer ' + request.token,
       'Username': request.username,
@@ -107,7 +107,7 @@ class TigoPesaApi {
         return Promise.reject(ApiError.fromResponse(error))
       })
 
-    if(response.data.ResponseCode !== codes.SUCCESS) {
+    if (response.data.ResponseCode !== codes.SUCCESS) {
       debug('Charge customer failed', response.data)
       return Promise.reject(ApiError.fromResponse({ response }))
     }
@@ -126,14 +126,14 @@ class TigoPesaApi {
    * Send heartbeat request to API server to check if it is up and running
    * @param {HeartbeatRequest} request - Request params
    */
-  async checkHeartbeat(request) {
+  async checkHeartbeat (request) {
     const headers = {
       'Username': request.username,
       'Password': request.password,
       'Cache-Control': 'no-cache',
       'Content-Type': 'application/json'
     }
-    const data = { 
+    const data = {
       ReferenceID: request.reference
     }
     debug('Sending heartbeat request', data, headers)
@@ -144,7 +144,7 @@ class TigoPesaApi {
       })
 
     debug('Heartbeat response', response.data)
-    if(response.data.ReferenceID !== request.reference) {
+    if (response.data.ReferenceID !== request.reference) {
       throw new ApiError(codes.INVALID_RESPONSE, 'Invalid reference returned by server')
     }
   }
