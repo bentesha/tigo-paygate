@@ -44,7 +44,11 @@ const codes = {
 
   BILLER_NOT_ACTIVE: 'BILLER-18-3022-E',
 
-  INVALID_REFERENCE_ID: 'DebitMandate-10-2020-V'
+  INVALID_REFERENCE_ID: 'DebitMandate-10-2020-V',
+
+  // Custom error code
+  // Indicating the request was successful but the returned response could be understood
+  INVALID_RESPONSE: 'INVALID_RESPONSE'
 }
 
 Object.freeze(codes)

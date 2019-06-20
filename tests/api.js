@@ -194,4 +194,53 @@ describe('TigoPesaApi', () => {
       expect(error.code).to.equal('INTERNAL_SERVICE_ERROR')
     })
   })
+
+  describe(':checkHeartbeat', () => {
+    it('should successfully send heartbeat request', async () => {
+      const username = 'username'
+      const password = 'password'
+      const reference = 'reference'
+
+      const response = {
+        ReferenceID: reference
+      }
+
+      const scope = nock(app.config.apiUrl)
+        .post('/API/Heartbeat/Heartbeat', { ReferenceID: reference })
+        .matchHeader('content-type', 'application/json')
+        .matchHeader('cache-control', 'no-cache')
+        .matchHeader('username', username)
+        .matchHeader('password', password)
+        .reply(200, response)
+
+      await app.api.checkHeartbeat({
+        username,
+        password,
+        reference
+      })
+
+      scope.done()
+    })
+
+    it('should fail with code INVALID_RESPONSE', async () => {
+      const username = 'username'
+      const password = 'password'
+      const reference = 'reference'
+
+      const scope = nock(app.config.apiUrl)
+        .post('/API/Heartbeat/Heartbeat')
+        .reply(200, { ReferenceID: 'invalid reference' })
+
+      const error = await app.api
+        .checkHeartbeat({
+          username,
+          password,
+          reference
+        })
+        .catch(error => error)
+      
+      scope.done()
+      expect(error.code).to.equal('INVALID_RESPONSE')
+    })
+  })
 })

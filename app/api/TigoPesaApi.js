@@ -114,6 +114,40 @@ class TigoPesaApi {
 
     debug('Charge customer succeeded', response.data)
   }
+
+  /**
+   * @typedef {object} HeartbeatRequest
+   * @property {string} username - Tigo merchant username
+   * @property {string} password - Tigo mearchat password
+   * @property {string} reference - A unique reference that can be used to track this request
+   */
+
+  /**
+   * Send heartbeat request to API server to check if it is up and running
+   * @param {HeartbeatRequest} request - Request params
+   */
+  async checkHeartbeat(request) {
+    const headers = {
+      'Username': request.username,
+      'Password': request.password,
+      'Cache-Control': 'no-cache',
+      'Content-Type': 'application/json'
+    }
+    const data = { 
+      ReferenceID: request.reference
+    }
+    debug('Sending heartbeat request', data, headers)
+    const response = await this.app.http
+      .post('/API/Heartbeat/Heartbeat', data, { headers })
+      .catch(error => {
+        return Promise.reject(ApiError.fromResponse(error))
+      })
+
+    debug('Heartbeat response', response.data)
+    if(response.data.ReferenceID !== request.reference) {
+      throw new ApiError(codes.INVALID_RESPONSE, 'Invalid reference returned by server')
+    }
+  }
 }
 
 module.exports = TigoPesaApi
