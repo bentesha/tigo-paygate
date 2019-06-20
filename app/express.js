@@ -2,6 +2,7 @@
 
 const express = require('express')
 const morgan = require('morgan')
+const bodyParser = require('body-parser')
 
 const healthcheck = express.Router() // Healthcheck middleware
 healthcheck.use('/healthcheck', (request, response) => {
@@ -19,6 +20,9 @@ const init = (app) => {
     // Log http traffic if in dev mode
     expressApp.use(morgan('combined'))
   }
+
+  // Parse json bodies
+  expressApp.use(bodyParser.json())
 
   // Healthcheck middleware
   expressApp.use(healthcheck)
