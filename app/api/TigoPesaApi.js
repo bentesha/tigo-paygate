@@ -76,7 +76,7 @@ class TigoPesaApi {
    * @property {string} billerMsisdn - Biller MSISDN
    * @property {number} amount - Amount the customer should be charged
    * @property {string} [remarks] - Remarks associated with charge request
-   * @property {reference} - A unique reference ID that can be used to track this request
+   * @property {string} reference - A unique reference ID that can be used to track this request
    */
 
   /**
