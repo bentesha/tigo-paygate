@@ -3,6 +3,7 @@
 const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
+const webhook = require('./api/webhook')
 
 const healthcheck = express.Router() // Healthcheck middleware
 healthcheck.use('/healthcheck', (request, response) => {
@@ -26,6 +27,18 @@ const init = (app) => {
 
   // Healthcheck middleware
   expressApp.use(healthcheck)
+
+  const route = webhook(async result => {
+    // Add customer charge result into the queue
+    await app.jobs.addChargeResult(result)
+    return true
+  })
+
+  // Webhook handler
+  expressApp.use('/webhooks/tigo/debit-mandate', route)
+
+  // Catch all route
+  expressApp.use('*', (request, response) => response.sendStatus(404))
 
   return expressApp
 }
