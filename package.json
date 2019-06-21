@@ -4,7 +4,11 @@
   "description": "Tigo Pesa Direct Mandate API Implementation",
   "main": "index.js",
   "scripts": {
-    "test": "ENV=test standard --env mocha --fix && mocha test --recursive --exit"
+    "test": "ENV=test standard --env mocha --fix && mocha test --recursive --exit",
+    "forever": "npx forever --uid tigo-paygate --append start index.js",
+    "restart": "npx forever restart index.js",
+    "status": "npx forever list | grep tigo-paygate",
+    "stop": "npx forever stop index.js"
   },
   "author": "benedict.tesha@jamaatech.com",
   "license": "MIT",
@@ -21,6 +25,7 @@
     "debug": "^4.1.1",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
+    "forever": "^1.0.0",
     "lodash": "^4.17.11",
     "mocha": "^6.1.4",
     "morgan": "^1.9.1",
