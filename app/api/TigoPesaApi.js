@@ -31,12 +31,9 @@ class TigoPesaApi {
   /**
    * Sends request to TigoPesa API to obtain authentication token
    * @param {AuthRequest} request - Authentication request
-   * @param {object} [options]
-   * @param {string} [options.grantType = 'password'] - Authentication grant type. Defaults to 'password'
    * @return {Promise<AuthResponse>}
    */
-  async authenticate (request, options) {
-    options = options || {}
+  async authenticate (request) {
     const data = {
       user_name: request.username,
       password: request.password,
