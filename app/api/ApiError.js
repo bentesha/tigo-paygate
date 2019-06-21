@@ -29,8 +29,7 @@ class RequestError extends Error {
       const e = new RequestError(code || 'UNKNOWN_ERROR', message, error)
       e.reference = _.get(error, 'response.data.ReferenceID')
       return e
-    }
-    else {
+    } else {
       return new RequestError('UNKNOWN_ERROR', error.message, error)
     }
   }
