@@ -43,7 +43,7 @@ class JobQueue {
    * @param {callbackFn} callback
    */
   process (callback) {
-    this.queue.process(callback)
+    this.requestQueue.process(callback)
   }
 }
 
