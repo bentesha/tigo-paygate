@@ -14,6 +14,21 @@ class JobQueue {
   }
 
   /**
+   * Waits for the queues to be ready to process messages
+   */
+  async isReady () {
+    await this.requestQueue.isReady()
+    await this.requestQueue.isReady()
+  }
+
+  /**
+   * Stutdown all queues
+   */
+  async shutdown () {
+    return this.requestQueue.pause()
+  }
+
+  /**
    * Add customer charge result into the queue
    * @param {response} response
    */
@@ -43,7 +58,9 @@ class JobQueue {
    * @param {callbackFn} callback
    */
   process (callback) {
-    this.requestQueue.process(callback)
+    this.requestQueue.isReady()
+      .then(() => this.requestQueue.process(callback))
+      .catch(() => {}) // Do nothing
   }
 }
 

@@ -30,19 +30,32 @@ class Application {
   /**
    * Runs our application instance
    */
-  run () {
-    // Run web server
-    const server = http.createServer(this.express)
-    server.listen(this.config.server.port, () => {
-      console.log(chalk.green('Server listening on port:'), server.address().port)
-    })
+  async run () {
+    // Wait for job queue to be ready
+    await this.jobs
+      .isReady()
+      .catch(error => {
+        console.log(chalk.red('Job queue failed to initialize'))
+        console.log(chalk.red(error))
+        process.exit(-1)
+      })
 
     // Create a worker to process queued jobs
     const worker = require('./worker')(this)
     this.jobs.process(worker)
 
+    // Run web server
+    const server = http.createServer(this.express)
+    server.listen(this.config.server.port, () => {
+      console.log(
+        chalk.green('Server listening on port:'),
+        server.address().port
+      )
+    })
+
     process.on('exit', () => {
       // Properly shutdown job queue
+      console.log('App exit')
       this.jobs.shutdown()
     })
   }
