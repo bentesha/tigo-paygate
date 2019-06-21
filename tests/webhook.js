@@ -11,7 +11,7 @@ const bodyParser = require('body-parser')
 const expect = chai.expect
 
 describe('webhook', () => {
-  it('should return transcation data', async () => {
+  it('should callback with transaction data and respond with json', async () => {
     const app = express()
     app.use(bodyParser.json())
     const callback = sinon.fake.returns(true)
