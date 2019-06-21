@@ -4,13 +4,17 @@ const codes = require('./response-codes')
 const debug = require('debug')('tigoapi')
 
 /**
+ * @typedef {object} ChargeRequestResult
+ * @property {boolean} status - True if the request was successful
+ * @property {string} transactionId - Transaction ID
+ * @property {number} amount - The amount requested the customer be charged
+ * @property {string} reference - The reference associated with the charge request
+ */
+
+/**
  * A function to be called with result of the customer charge request
  * @callback callbackFn
- * @param {object} result - An object containing result of the customer charge request
- * @param {boolean} result.status - True if the request was successful
- * @param {string} result.transactionId - Transaction ID
- * @param {number} result.amount - The amount requested the customer be charged
- * @param {string} result.reference - The reference associated with the charge request
+ * @param {ChargeRequestResult} result - An object containing result of the customer charge request
  * @return {boolean} True to confirm transaction or false to cancel transaction
  */
 
