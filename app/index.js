@@ -12,7 +12,7 @@ class Application {
     this.config = require('./config').init(this)
 
     // Axios Http client
-    this.http = require('./axios').init(this)
+    this.http = require('./http').init(this)
 
     // TigoPesa API client
     this.api = require('./api').init(this)

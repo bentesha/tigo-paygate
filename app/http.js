@@ -4,7 +4,7 @@ const axios = require('axios')
 
 /**
  * Init axios instance
- * @param {import('../app')} app
+ * @param {import('.')} app
  */
 function init (app) {
   return axios.default.create({
