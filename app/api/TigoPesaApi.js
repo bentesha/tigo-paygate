@@ -37,7 +37,7 @@ class TigoPesaApi {
     const data = {
       user_name: request.username,
       password: request.password,
-      grant_type: options.grantType || 'password'
+      grant_type: 'password'
     }
     const headers = {
       'Cache-Control': 'no-cache'

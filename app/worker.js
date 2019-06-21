@@ -15,11 +15,12 @@ module.exports = app => async job => {
 
   // Prints error to the console
   const error = error => {
-    console.log(chalk.yellow('Failed to process job:', job))
+    console.log(chalk.yellow('Failed to process job:'), job)
     console.log(chalk.yellow(error))
+    return Promise.reject(error)
   }
 
-  (async () => {
+  return (async () => {
     // We first need to authenticate with Tigo API server to obtain access token
     // that we can use to authenticate other API calls
     const auth = await app.api.authenticate({

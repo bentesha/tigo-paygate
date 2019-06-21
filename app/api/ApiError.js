@@ -30,6 +30,9 @@ class RequestError extends Error {
       e.reference = _.get(error, 'response.data.ReferenceID')
       return e
     }
+    else {
+      return new RequestError('UNKNOWN_ERROR', error.message, error)
+    }
   }
 }
 
