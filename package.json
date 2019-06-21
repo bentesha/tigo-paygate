@@ -4,7 +4,7 @@
   "description": "Tigo Pesa Direct Mandate API Implementation",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests/api.js"
+    "test": "ENV=test standard --env mocha && mocha test --recursive --exit"
   },
   "author": "benedict.tesha@jamaatech.com",
   "license": "MIT",
