@@ -179,7 +179,7 @@ class TigoPesaApi {
       description: body.ResponseDescription,
       dmReference: body.DMReferenceID,
       reference: body.ReferenceID,
-      transctionId: body.MFSTransactionID
+      transactionId: body.MFSTransactionID
     }
   }
 

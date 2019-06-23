@@ -243,4 +243,67 @@ describe('TigoPesaApi', () => {
       expect(error.code).to.equal('INVALID_RESPONSE')
     })
   })
+
+  describe(':reverseTransaction', () => {
+    it('should successfully reverse customer transaction', async () => {
+      const username = 'username'
+      const password = 'password'
+      const token = 'access token'
+      const msisdn = '255123456789'
+      const billerMsisdn = '255987654321'
+      const pin = '2355'
+      const amount = 5000
+      const transactionId = 'transaction id'
+      const purchaseReference = 'purchase reference'
+      const dmReference = 'dm reference'
+      const reference = 'reference'
+      const responseDescription = 'response description'
+
+      const postData = {
+        CustomerMSISDN: msisdn,
+        ChannelMSISDN: billerMsisdn,
+        ChannelPIN: pin,
+        Amount: amount,
+        MFSTransactionID: transactionId,
+        ReferenceID: reference,
+        PurchaseReferenceID: purchaseReference
+      }
+
+      const scope = nock(app.config.apiUrl)
+        .post('/API/Reverse/ReverseTransacation', postData)
+        .matchHeader('Authorization', 'Bearer ' + token)
+        .matchHeader('Username', username)
+        .matchHeader('Password', password)
+        .matchHeader('Cache-Control', 'no-cache')
+        .matchHeader('Content-Type', 'application/json')
+        .reply(200, {
+          ResponseCode: 'RefundTransaction-20-0000-S',
+          ResponseStatus: true,
+          ResponseDescription: responseDescription,
+          DMReferenceID: dmReference,
+          ReferenceID: reference,
+          MFSTransactionID: transactionId
+        })
+
+      const result = await app.api.reverseTransaction({
+        token,
+        msisdn,
+        username,
+        billerMsisdn,
+        pin,
+        password,
+        transactionId,
+        reference,
+        purchaseReference,
+        amount
+      })
+
+      scope.done()
+
+      expect(result.reference).to.equal(reference)
+      expect(result.description).to.equal(responseDescription)
+      expect(result.dmReference).to.equal(dmReference)
+      expect(result.transactionId).to.equal(transactionId)
+    })
+  })
 })
