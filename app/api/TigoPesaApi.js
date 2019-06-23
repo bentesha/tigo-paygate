@@ -113,6 +113,77 @@ class TigoPesaApi {
   }
 
   /**
+   * Reverse transaction request parameters
+   * @typedef {object} ReverseTransactionRequest
+   * @property {string} msisdn - Customer MSISDN
+   * @property {string} billeryMsisdn - Merchant MSISDN
+   * @property {string} username - Merchant account username
+   * @property {string} password - Merchant account password
+   * @property {string} token - Authorization token
+   * @property {string} pin - MFS PIN of the merchant account
+   * @property {number} amount - Transaction amount
+   * @property {string} transactionId - ID of the transction to be reversed. Either transctionId or
+   * purchaseReference must be specified
+   * @property {string} reference - A unique ID to track this transaction
+   * @property {string} purchaseReference - The original reference that was specified in
+   * transaction that should be reversed. If this is not specifed, the the transactionId must
+   * be specified
+   */
+
+  /**
+   * Reverse transaction response
+   * @typedef {object} ReverseTransactionResponse
+   * @property {string} description - Response description
+   * @property {string} dmReference - A unique ID generated for reverse transaction request
+   * @property {string} reference - The original reference passed to the request
+   * @property {string} transactionId - Transaction id of the refund transaction
+   */
+
+  /**
+   * Reverses a successful customer charge transaction and refund money to customer
+   * @param {ReverseTransactionRequest} request - Transaction request parameters
+   * @return {ReverseTransactionResponse}
+   */
+  async reverseTransaction (request) {
+    const headers = {
+      'Authorization': 'Bearer ' + request.token,
+      'Cache-Control': 'no-cache',
+      'Username': request.username,
+      'Password': request.password,
+      'Content-Type': 'application/json'
+    }
+
+    const data = {
+      CustomerMSISDN: request.msisdn,
+      ChannelMSISDN: request.billerMsisdn,
+      ChannelPIN: request.pin,
+      Amount: request.amount,
+      MFSTransactionID: request.transactionId,
+      ReferenceID: request.reference,
+      PurchaseReferenceID: request.purchaseReference
+    }
+
+    const response = await this.app.http
+      .post('/API/Reverse/ReverseTransacation', data, { headers })
+      .catch(error => {
+        debug('Reverse transaction error', request)
+        return Promise.reject(ApiError.fromResponse(error))
+      })
+
+    if (response.data.ResponseCode !== codes.REVERSE_SUCCESS) {
+      return Promise.reject(ApiError.fromResponse({ response }))
+    }
+
+    const body = response.data
+    return {
+      description: body.ResponseDescription,
+      dmReference: body.DMReferenceID,
+      reference: body.ReferenceID,
+      transctionId: body.MFSTransactionID
+    }
+  }
+
+  /**
    * @typedef {object} HeartbeatRequest
    * @property {string} username - Tigo merchant username
    * @property {string} password - Tigo mearchat password

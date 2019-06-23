@@ -8,6 +8,10 @@ const codes = {
 
   SUCCESS: 'BILLER-18-0000-S',
 
+  REVERSE_SUCCESS: 'RefundTransaction-20-0000-S',
+
+  REVERSE_FAILED: 'RefundTransaction-20-3039-E',
+
   UNSUPPORTED_GRANT_TYPE: 'unsupported_grant_type',
 
   INVALID_GRANT: 'invalid_grant',
