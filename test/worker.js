@@ -12,8 +12,9 @@ const expect = chai.expect
 describe('worker', () => {
   before(() => {
     // Init application
-    process.env.TIGOPESA_BILL_API = 'http://fake/url/'
+    process.env.TIGOPESA_BILL_API = 'http://fake/bill/url/'
     process.env.TIGOPESA_AUTH_API = 'http://fake/auth/url/'
+    process.env.TIGOPESA_MERCHANT_CODE = 'DEMO'
     app.init()
     nock.disableNetConnect()
   })
@@ -25,11 +26,11 @@ describe('worker', () => {
   it('should successfully process customer charge request jobs', async () => {
     const username = 'username'
     const password = 'password'
-    const merchantCode = '255987654321'
+    const billerNumber = '255987654321'
 
     app.config.username = username
     app.config.password = password
-    app.config.merchantCode = merchantCode
+    app.config.billerNumber = billerNumber
 
     const token = 'access token'
 
@@ -63,10 +64,10 @@ describe('worker', () => {
     const scope2 = nock(app.config.billApiUrl)
       .post('/', {
         CustomerMSISDN: msisdn,
-        BillerMSISDN: merchantCode,
+        BillerMSISDN: billerNumber,
         Amount: amount,
         Remarks: remarks,
-        ReferenceID: reference
+        ReferenceID: app.config.billerCode + reference
       })
       .reply(200, chargeResponse)
 

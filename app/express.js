@@ -28,7 +28,7 @@ const init = (app) => {
   // Healthcheck middleware
   expressApp.use(healthcheck)
 
-  const route = webhook(async result => {
+  const route = webhook(app)(async result => {
     // Add customer charge result into the queue
     await app.jobs.addChargeResult(result)
     return true

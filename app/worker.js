@@ -33,11 +33,12 @@ module.exports = app => async job => {
       msisdn,
       amount,
       remarks,
-      reference,
-      billerMsisdn: app.config.merchantCode,
+      billerMsisdn: app.config.billerNumber,
       username: app.config.username,
       password: app.config.password,
-      token: auth.token
+      token: auth.token,
+      // Reference must be prefixed with biller code before calling api
+      reference: app.config.billerCode + reference
     })
 
     // This will be added to job result to indicate it was successfully processed

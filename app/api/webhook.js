@@ -23,7 +23,7 @@ const debug = require('debug')('tigoapi')
  * @param {callbackFn} callback - A function that will be called with reference and amount for
  * successful transctions. Should return true to confirm transction. Otherwise transaction will be rejected
  */
-module.exports = callback => ({ body }, response, next) => {
+module.exports = app => callback => ({ body }, response, next) => {
   (async () => {
     debug('Webhook callback', body)
     const status = body.Status
@@ -34,8 +34,8 @@ module.exports = callback => ({ body }, response, next) => {
     const ok = await callback({ // eslint-disable-line standard/no-callback-literal
       status,
       transactionId,
-      reference,
-      amount
+      amount,
+      reference: reference.replace(app.config.billerCode, '') // Remove biller prefix from reference
     })
 
     debug('Callback result', ok)

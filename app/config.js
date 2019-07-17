@@ -11,7 +11,8 @@ const init = () => {
 
     username: process.env.TIGOPESA_MERCHANT_USERNAME,
     password: process.env.TIGOPESA_MERCHANT_PASSWORD,
-    merchantCode: process.env.TIGOPESA_MERCHANT_CODE,
+    billerCode: process.env.TIGOPESA_MERCHANT_CODE,
+    billerNumber: process.env.TIGOPESA_BILLER_NUMBER,
 
     // Web server port
     server: {
