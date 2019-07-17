@@ -6,7 +6,8 @@ const init = () => {
   dotenv.config() // Load configurations from .env file
 
   return {
-    apiUrl: process.env.TIGOPESA_API_URL,
+    authApiUrl: process.env.TIGOPESA_AUTH_API,
+    billApiUrl: process.env.TIGOPESA_BILL_API,
 
     username: process.env.TIGOPESA_MERCHANT_USERNAME,
     password: process.env.TIGOPESA_MERCHANT_PASSWORD,

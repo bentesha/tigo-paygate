@@ -12,7 +12,8 @@ const expect = chai.expect
 describe('worker', () => {
   before(() => {
     // Init application
-    process.env.TIGOPESA_API_URL = 'http://fake/url'
+    process.env.TIGOPESA_BILL_API = 'http://fake/url/'
+    process.env.TIGOPESA_AUTH_API = 'http://fake/auth/url/'
     app.init()
     nock.disableNetConnect()
   })
@@ -51,14 +52,16 @@ describe('worker', () => {
       ReferenceID: reference
     }
 
-    const scope = nock(app.config.apiUrl)
-      .post('/token', querystring.stringify({
+    const scope = nock(app.config.authApiUrl)
+      .post('/', querystring.stringify({
         user_name: username,
         password,
         grant_type: 'password'
       }))
       .reply(200, authResponse)
-      .post('/API/BillerPayment/BillerPay', {
+
+    const scope2 = nock(app.config.billApiUrl)
+      .post('/', {
         CustomerMSISDN: msisdn,
         BillerMSISDN: merchantCode,
         Amount: amount,
@@ -77,6 +80,7 @@ describe('worker', () => {
     })
 
     scope.done()
+    scope2.done()
     expect(result).to.equal('Success')
   })
 })

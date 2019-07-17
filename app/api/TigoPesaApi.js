@@ -45,7 +45,7 @@ class TigoPesaApi {
     // Send data as application/x-www-form-urlencoded
     debug('Auth request', data)
     const response = await this.app.http
-      .post('/token', querystring.stringify(data), { headers })
+      .post(this.app.config.authApiUrl, querystring.stringify(data), { headers })
       .catch(error => {
         debug('Auth error', error.message)
         return Promise.reject(ApiError.fromResponse(error))
@@ -99,7 +99,7 @@ class TigoPesaApi {
     }
     debug('Sending charge request', data, headers)
     const response = await this.app.http
-      .post('/API/BillerPayment/BillerPay', data, { headers })
+      .post(this.app.config.billApiUrl, data, { headers })
       .catch(error => {
         return Promise.reject(ApiError.fromResponse(error))
       })
