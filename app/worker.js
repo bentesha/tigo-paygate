@@ -15,8 +15,8 @@ module.exports = app => async job => {
 
   // Prints error to the console
   const error = error => {
-    console.log(chalk.yellow('Failed to process job:'), job)
-    console.log(chalk.yellow(error))
+    console.log(chalk.yellow('Failed to process job:'), job.data)
+    console.log(chalk.yellow(error.message || error))
     return Promise.reject(error)
   }
 
