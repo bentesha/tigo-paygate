@@ -6,16 +6,16 @@ const chalk = require('chalk')
  * Returns a callback function to process queued customer charge request jobs
  * @param {import('.')} app - Application instance
  */
-module.exports = app => async job => {
+module.exports = app => async ({ data: request }) => {
   // Each job has the following properties
-  const msisdn = job.msisdn // Customer MSISDN to be charged
-  const amount = job.amount // Amount to charge the customer
-  const reference = job.reference // A unique reference that can be used track the charge request
-  const remarks = job.remarks // Remarks, if any, associated with the charge
+  const msisdn = request.msisdn // Customer MSISDN to be charged
+  const amount = request.amount // Amount to charge the customer
+  const reference = request.reference // A unique reference that can be used track the charge request
+  const remarks = request.remarks || '' // Remarks, if any, associated with the charge
 
   // Prints error to the console
   const error = error => {
-    console.log(chalk.yellow('Failed to process job:'), job.data)
+    console.log(chalk.yellow('Failed to process job:'), request)
     console.log(chalk.yellow(error.message || error))
     return Promise.reject(error)
   }

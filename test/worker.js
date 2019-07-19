@@ -74,10 +74,12 @@ describe('worker', () => {
     const callback = worker(app)
 
     const result = await callback({ // eslint-disable-line standard/no-callback-literal
-      msisdn,
-      amount,
-      reference,
-      remarks
+      data: {
+        msisdn,
+        amount,
+        reference,
+        remarks
+      }
     })
 
     scope.done()
