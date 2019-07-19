@@ -32,7 +32,7 @@ describe('TigoPesaApi', () => {
       }
 
       const formData = {
-        user_name: username,
+        username: username,
         password: password,
         grant_type: 'password'
       }
@@ -62,7 +62,7 @@ describe('TigoPesaApi', () => {
       const password = 'wrong password'
 
       const postData = {
-        user_name: username,
+        username: username,
         password: password,
         grant_type: 'password'
       }

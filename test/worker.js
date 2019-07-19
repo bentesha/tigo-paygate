@@ -55,7 +55,7 @@ describe('worker', () => {
 
     const scope = nock(app.config.authApiUrl)
       .post('/', querystring.stringify({
-        user_name: username,
+        username: username,
         password,
         grant_type: 'password'
       }))

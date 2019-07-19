@@ -35,7 +35,7 @@ class TigoPesaApi {
    */
   async authenticate (request) {
     const data = {
-      user_name: request.username,
+      username: request.username,
       password: request.password,
       grant_type: 'password'
     }
