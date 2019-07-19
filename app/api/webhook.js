@@ -25,7 +25,9 @@ const debug = require('debug')('tigoapi')
  */
 module.exports = app => callback => ({ body }, response, next) => {
   (async () => {
-    debug('Webhook callback', body)
+    debug('----------- WEBHOOK CALL --------------')
+    debug({ data : body })
+    debug('--------- END WEBHOOK CALL ------------')
     const status = body.Status
     const transactionId = body.MFSTransactionID
     const reference = body.ReferenceID
@@ -46,7 +48,9 @@ module.exports = app => callback => ({ body }, response, next) => {
       ResponseDescription: ok ? 'Callback Successful' : 'Callback failed',
       ReferenceID: reference
     }
-    debug('Webhook callback response', result)
+    debug('----------- WEBHOOK RESPONSE -----------')
+    debug( { data: result })
+    debug('--------- END WEBHOOK RESPONSE ---------')
     response.json(result)
   })().catch(next)
 }
