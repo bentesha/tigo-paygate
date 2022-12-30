@@ -27,7 +27,7 @@
     "express": "^4.17.1",
     "forever": "^1.0.0",
     "lodash": "^4.17.11",
-    "mocha": "^6.1.4",
+    "mocha": "^10.2.0",
     "morgan": "^1.9.1",
     "querystring": "^0.2.0",
     "sinon": "^7.3.2",
